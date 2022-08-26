@@ -4,13 +4,17 @@ import popupCloseButton from "../images/popup__close-icon.svg";
 class ImagePopup extends React.Component {
   render() {
     const { selectedCard, cardInfo, onClose } = this.props;
-    const popupOpenClass = selectedCard
-      ? `popup popup_opened popup_large-img`
-      : `popup popup_large-img`;
+    if (!selectedCard) {
+      return null;
+    }
     const cardLink = selectedCard ? cardInfo.link : "data";
     const cardName = selectedCard ? cardInfo.name : "empty";
     return (
-      <div className={popupOpenClass}>
+      <div
+        className={`popup popup_large-img ${
+          selectedCard ? "popup_opened" : ""
+        }`}
+      >
         <div className="popup__large-img-content">
           <button
             className="popup__close popup__close-button popup__close-button_large-image"
