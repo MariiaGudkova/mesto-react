@@ -4,12 +4,8 @@ import popupCloseButton from "../images/popup__close-icon.svg";
 class PopupWithForm extends React.Component {
   render() {
     const { title, name, children, buttonText, isOpen, onClose } = this.props;
-    let popupOpenClass = isOpen
-      ? `popup popup_opened popup_${name}`
-      : `popup popup_${name}`;
-
     return (
-      <div className={popupOpenClass}>
+      <div className={`popup popup_${name} ${isOpen ? "popup_opened" : ""}`}>
         <button
           className={`popup__close popup__close-button popup_${name}`}
           type="button"
