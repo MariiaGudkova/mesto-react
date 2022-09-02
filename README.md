@@ -1,4 +1,4 @@
-# **Проект: Сервис Mesto** :milky_way:
+# **Проект: Сервис Mesto на React** :milky_way:
 
 <img src="https://media.giphy.com/media/lXC2gmHf2ypUs/giphy.gif">
 
