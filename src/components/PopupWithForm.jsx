@@ -3,7 +3,8 @@ import popupCloseButton from "../images/popup__close-icon.svg";
 
 class PopupWithForm extends React.Component {
   render() {
-    const { title, name, children, buttonText, isOpen, onClose } = this.props;
+    const { title, name, children, buttonText, isOpen, onClose, onSubmit } =
+      this.props;
     return (
       <div className={`popup popup_${name} ${isOpen ? "popup_opened" : ""}`}>
         <button
@@ -23,9 +24,9 @@ class PopupWithForm extends React.Component {
             className={`form form_${name}`}
             name={`${name}`}
             action="#"
-            method="post"
             autoComplete="off"
             noValidate
+            onSubmit={onSubmit}
           >
             <fieldset className="form__fieldset">
               {children}
