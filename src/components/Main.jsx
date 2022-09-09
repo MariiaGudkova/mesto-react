@@ -3,48 +3,29 @@ import avatarEditButton from "../images/profile__avatar_after.png";
 import profileEditButton from "../images/profile__edit-button.svg";
 import profileAddButton from "../images/profile__add-button.svg";
 import Card from "./Card.jsx";
-import api from "../utils/api.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 class Main extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      userName: "",
-      userDescription: "",
-      userAvatar: "",
-      cards: [],
-    };
-  }
-
-  getApiUserInfo = async () => {
-    try {
-      const userInfo = await api.getUserInfo();
-      const cardsInfo = await api.getInitialCards();
-      const { name, about, avatar } = userInfo;
-      this.setState({
-        userName: name,
-        userDescription: about,
-        userAvatar: avatar,
-        cards: cardsInfo,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  componentDidMount = () => {
-    this.getApiUserInfo();
-  };
+  static contextType = CurrentUserContext;
 
   render() {
-    const { onEditProfile, onAddPlace, onEditAvatar, onCardClick } = this.props;
+    const {
+      onEditProfile,
+      onAddPlace,
+      onEditAvatar,
+      onCardClick,
+      cards,
+      onCardLike,
+      onCardDelete,
+    } = this.props;
+    const userInfo = this.context;
     return (
       <main className="container">
         <section className="profile">
           <div className="profile__avatar-container">
             <img
               className="profile__avatar"
-              src={this.state.userAvatar}
+              src={userInfo.avatar}
               alt="Жак-Ив Кусто"
             />
             <button
@@ -73,8 +54,8 @@ class Main extends React.Component {
               редактирования"
               />
             </button>
-            <h1 className="profile__title">{this.state.userName}</h1>
-            <p className="profile__subtitle">{this.state.userDescription}</p>
+            <h1 className="profile__title">{userInfo.name}</h1>
+            <p className="profile__subtitle">{userInfo.about}</p>
           </div>
           <button
             className="profile__add-button"
@@ -91,9 +72,15 @@ class Main extends React.Component {
         </section>
         <section className="elements">
           <ul className="element">
-            {this.state.cards.map((card) => {
+            {cards.map((card) => {
               return (
-                <Card card={card} key={card._id} onCardClick={onCardClick} />
+                <Card
+                  card={card}
+                  key={card._id}
+                  onCardClick={onCardClick}
+                  onCardLike={onCardLike}
+                  onCardDelete={onCardDelete}
+                />
               );
             })}
           </ul>

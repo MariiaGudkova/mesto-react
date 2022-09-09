@@ -55,6 +55,10 @@ class Api {
     }).then(this._getJsonOnError);
   };
 
+  changeLikeCardStatus = (id, isliked) => {
+    return isliked ? this.createLike(id) : this.deleteLike(id);
+  };
+
   createLike = (id) => {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "PUT",
