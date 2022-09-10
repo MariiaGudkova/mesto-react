@@ -1,39 +1,27 @@
 import React from "react";
+import { useForm } from "../hooks/useForm.jsx";
 import PopupWithForm from "./PopupWithForm.jsx";
 
 function AddPlacePopup(props) {
-  const { isOpen, onClose, onAddPlace } = props;
-  const [name, setName] = React.useState("");
-  const [link, setLink] = React.useState("");
-  let card = {
-    name: name,
-    link: link,
-  };
+  const { isOpen, onClose, onAddPlace, isLoading } = props;
+  const { values, handleChange, setValues } = useForm({});
 
-  function handleNameChange(event) {
-    setName(event.target.value);
-  }
-
-  function handleLinkChange(event) {
-    setLink(event.target.value);
-  }
-
-  async function handleSubmit(event) {
-    try {
-      event.preventDefault();
-      await onAddPlace(card);
-      setName("");
-      setLink("");
-    } catch (e) {
-      console.error(e);
+  React.useEffect(() => {
+    if (isOpen === true) {
+      setValues({ name: "", link: "" });
     }
+  }, [isOpen, setValues]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    onAddPlace(values);
   }
 
   return (
     <PopupWithForm
       name="add-card"
       title="Новое место"
-      buttonText="Создать"
+      buttonText={isLoading ? "Сохранение..." : "Создать"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
@@ -47,19 +35,19 @@ function AddPlacePopup(props) {
         required
         minLength="2"
         maxLength="30"
-        value={name}
-        onChange={handleNameChange}
+        value={values.name || ""}
+        onChange={handleChange}
       />
       <span className="form__error name-card-input-error"></span>
       <input
         className="form__input form__input_text_image"
         id="image-url-input"
         type="url"
-        name="url"
+        name="link"
         placeholder="Ссылка на картинку"
         required
-        value={link}
-        onChange={handleLinkChange}
+        value={values.link || ""}
+        onChange={handleChange}
       />
       <span className="form__error image-url-input-error"></span>
     </PopupWithForm>
