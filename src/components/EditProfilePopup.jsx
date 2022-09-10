@@ -1,36 +1,29 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
+import { useForm } from "../hooks/useForm.jsx";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function EditProfilePopup(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const { isOpen, onClose, onUpdateUser } = props;
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const { isOpen, onClose, onUpdateUser, isLoading } = props;
+  const { values, handleChange, setValues } = useForm({});
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
-
-  function handleNameChange(event) {
-    setName(event.target.value);
-  }
-
-  function handleAboutChange(event) {
-    setDescription(event.target.value);
-  }
+    if (isOpen === true) {
+      setValues(currentUser);
+    }
+  }, [isOpen, setValues, currentUser]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    onUpdateUser(name, description);
+    onUpdateUser(values);
   }
 
   return (
     <PopupWithForm
       name="personal-data"
       title="Редактировать&nbsp;профиль"
-      buttonText="Сохранить"
+      buttonText={isLoading ? "Сохранение..." : "Сохранить"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
@@ -44,8 +37,8 @@ function EditProfilePopup(props) {
         required
         minLength="2"
         maxLength="40"
-        value={name}
-        onChange={handleNameChange}
+        value={values.name || ""}
+        onChange={handleChange}
       />
       <span className="form__error name-input-error"></span>
       <input
@@ -57,8 +50,8 @@ function EditProfilePopup(props) {
         required
         minLength="2"
         maxLength="200"
-        value={description}
-        onChange={handleAboutChange}
+        value={values.about || ""}
+        onChange={handleChange}
       />
       <span className="form__error description-input-error"></span>
     </PopupWithForm>

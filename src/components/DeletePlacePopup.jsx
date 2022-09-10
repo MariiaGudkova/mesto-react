@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
 
 function DeletePlacePopup(props) {
-  const { card, onClose, onDeletePlace } = props;
+  const { card, onClose, onDeletePlace, isLoading } = props;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -12,11 +12,11 @@ function DeletePlacePopup(props) {
     <PopupWithForm
       name="delete-card"
       title="Вы уверены?"
-      buttonText="Да"
+      buttonText={isLoading ? "Удаление..." : "Да"}
       isOpen={Boolean(card)}
       onClose={onClose}
       onSubmit={handleSubmit}
-    ></PopupWithForm>
+    />
   );
 }
 
