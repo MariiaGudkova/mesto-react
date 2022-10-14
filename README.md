@@ -33,4 +33,4 @@ _В проекте был отработан навык работы с React :t
 
 <a href="https://mariiagudkova.github.io/mesto-react" target="_blank">Сервис Mesto-React</a>
 
-<img src="https://komarev.com/ghpvc/?username=your-github-username&style=flat-square&color=9932CC" alt=""/>
+<img src="https://komarev.com/ghpvc/?username=MariiaGudkova&style=flat-square&color=9932CC" alt=""/>
